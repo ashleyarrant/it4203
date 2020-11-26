@@ -10,28 +10,6 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         
         <style>
-        
-            #fade {
-                height:100%;
-                width:100%;
-                display:block;
-                position:fixed;
-                background:#000;
-                top:0px;
-                left:0;
-                z-index:99998!important;
-                opacity:.5;
-            }
-            
-            #popupContent {
-                display:block;
-                position:fixed;
-                z-index:99999!important;
-                width:600px;
-                max-height:700px;
-                overflow:auto;
-                left:calc(50% - ( 300px - 1rem ));
-            }
             
             .col:hover .media {
                 background-color:#eee;
@@ -45,6 +23,17 @@
     </head>
     <body>
         <section class="container-xl">
+            
+            <nav class="navbar navbar-expand-md navbar-light sticky-top bg-light" role="navigation">
+                <a href="/" class="navbar-brand">Ashley Arrant</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcontent" aria-controls="navcontent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end text-right bg-light p-3 p-md-0" id="navcontent">
+                    <ul class="nav"></ul>
+                </div>
+            </nav>
             
             <form class="p-3" autocomplete="off">
                 <div class="input-group">
@@ -91,5 +80,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <script src="scripts/search.js"></script>
         <script src="scripts/details.js"></script>
+        <script src="/scripts/nav.js"></script>
     </body>
 </html>
