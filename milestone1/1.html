@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>IT 4203 | Ashley Arrant</title>
+        
+        <!-- stylesheets & fonts -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+        
+        <!-- jQuery plugins & scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script>
+            $.getJSON("data/book1.json", function(x) {
+                var c = $("#content");
+                
+                c.html("<header class='jumbotron'><h1 class='display-3'>"+x.title+"</h1><h2>"+x.subtitle+"</h2><hr class='my-4'><p class='lead mb-0'>written by "+x.authors+"</p></header>");
+                c.append("<section class='row'><div class='col-sm-4 text-center'><a target='_blank' href='"+x.url+"'><img src='"+x.image+"' alt='Book Cover' /></a></div><div class='col'><ul class='list-unstyled'><li><strong>Publisher: </strong> "+x.publisher+"</li><li><strong>Language: </strong> "+x.language+"</li><li><strong>ISBN10:</strong> <span class='user-select-all'>"+x.isbn10+"</span></li><li><strong>ISBN13:</strong> <span class='user-select-all'>"+x.isbn13+"</span></li><li><strong>Pages: </strong> "+x.pages+"</li><li><strong>Year: </strong> "+x.year+"</li><li><strong>Rating: </strong> "+x.rating+"/5</li><li><strong>Description: </strong> "+x.desc+"</li><li><strong>Price: </strong> "+x.price+"</li></ul><a target='_blank' href='"+x.url+"' class='btn btn-primary'>Read More</a></div></section>");
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            
+            <nav class="navbar navbar-expand-md navbar-light sticky-top bg-light" role="navigation">
+                <a href="/" class="navbar-brand">Ashley Arrant</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcontent" aria-controls="navcontent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse justify-content-end text-right bg-light p-3 p-md-0" id="navcontent">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a href="/overview.html" class="nav-link p-3 py-md-2">Individual Project</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="m1Drop" role="button" data-toggle="dropdown">Milestone 1</a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item active" href="/milestone1/1.html">Link 1</a>
+                                <a class="dropdown-item" href="/milestone1/2.html">Link 2</a>
+                                <a class="dropdown-item" href="/milestone1/3.html">Link 3</a>
+                                <a class="dropdown-item" href="/milestone1/4.html">Link 4</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div id="content" class="p-3"></div>
+
+        </div>
+        <script src="/it4203/scripts/nav.js"></script>
+    </body>
+</html>
