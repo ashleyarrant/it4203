@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $.getJSON("/data/nav.json", function(x){
+    $.getJSON("../data/nav.json", function(x){
         var cont = $("#navcontent ul");
         for(var a = 0; a < x.links.length; a++){
             //populate links on nav
