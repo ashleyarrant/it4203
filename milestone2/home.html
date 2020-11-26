@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>IT 4203 | Ashley Arrant</title>
+        
+        <!-- stylesheets & fonts -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+        
+    </head>
+    <body>        
+            
+        <nav class="navbar navbar-light bg-white">
+            <h1 class="navbar-brand mb-0">My Books</h1>
+
+            <div class="nav">
+                <a href="/">Index</a>
+                <a href="home.html" class="nav-item nav-link">Search</a>
+                <a href="bookshelf.html" class="nav-item nav-link">Bookshelf</a>
+            </div>
+
+        </nav>
+        <section class="container-xl">
+            
+            <form class="p-3" autocomplete="off">
+                <div class="input-group">
+                    <input class="form-control form-control-lg" name="q" id="searchterms" type="search" placeholder="Search for books...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary btn-lg" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3" id="searchResults"></div>  
+            
+            <div id="pagination" class="text-center my-4 d-none">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="page" id="page1" value="0" checked onclick="changePage()">
+                    <label class="form-check-label" for="page1">1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="page" id="page2" value="10" onclick="changePage()">
+                    <label class="form-check-label" for="page2">2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="page" id="page3" value="20" onclick="changePage()">
+                    <label class="form-check-label" for="page3">3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="page" id="page1" value="30" onclick="changePage()">
+                    <label class="form-check-label" for="page1">4</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="page" id="page2" value="40" onclick="changePage()">
+                    <label class="form-check-label" for="page2">5</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="page" id="page3" value="50" onclick="changePage()">
+                    <label class="form-check-label" for="page3">6</label>
+                </div>
+            </div> 
+            
+        </section>
+        
+        
+        <!-- scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="scripts/search.js"></script>
+    </body>
+</html>
