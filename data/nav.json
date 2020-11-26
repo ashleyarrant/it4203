@@ -1,0 +1,52 @@
+{
+    "links": [
+        {
+            "name": "Index",
+            "path": "/"
+        },
+        {
+            "name": "Coursework",
+            "path": "#",
+            "ddlinks": [
+                {
+                    "l1_name": "Milestone 1",
+                    "l1_path": "#",
+                    "drlinks": [
+                        {
+                            "l2_name": "Link 1",
+                            "l2_path": "/milestone1/1.html"
+                        },
+                        {
+                            "l2_name": "Link 2",
+                            "l2_path": "/milestone1/2.html"
+                        },
+                        {
+                            "l2_name": "Link 3",
+                            "l2_path": "/milestone1/3.html"
+                        },
+                        {
+                            "l2_name": "Link 4",
+                            "l2_path": "/milestone1/4.html"
+                        }
+                    ]
+                },
+                {
+                    "l1_name": "Milestone 2",
+                    "l1_path": "/milestone2/home.html"
+                },
+                {
+                    "l1_name": "Milestone 3",
+                    "l1_path": "/milestone3/books.html"
+                },
+                {
+                    "l1_name": "Milestone 4",
+                    "l1_path": "/milestone4/home.html"
+                }
+            ]
+        },
+        {
+            "name": "Term Project",
+            "path": "/termproject.html"
+        }
+    ]
+}
