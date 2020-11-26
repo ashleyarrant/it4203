@@ -14,6 +14,7 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <script src="scripts/mustache.js"></script>
+        <script src="/scripts/nav.js"></script>
         
         <style>
         
@@ -94,6 +95,17 @@
         
         
         <div class="container-xl">
+            
+            <nav class="navbar navbar-expand-md navbar-light sticky-top bg-light" role="navigation">
+                <a href="/" class="navbar-brand">Ashley Arrant</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcontent" aria-controls="navcontent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end text-right bg-light p-3 p-md-0" id="navcontent">
+                    <ul class="nav"></ul>
+                </div>
+            </nav>
         
             <form class="p-3" autocomplete="off">
                 <div class="input-group">
