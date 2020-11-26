@@ -1,6 +1,78 @@
 <!DOCTYPE html>
 <html>
-	<body>
-  	<h1>Hello, world</h1>
-	</body>
+    <head>
+        <!-- meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>IT 4203 | Ashley Arrant</title>
+        
+        <!-- stylesheets & fonts -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+        
+        <!-- jQuery plugins & scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        
+            <nav class="navbar navbar-expand-md navbar-light sticky-top bg-light" role="navigation">
+                <a href="/" class="navbar-brand">Ashley Arrant</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcontent" aria-controls="navcontent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse justify-content-end text-right bg-light p-3 p-md-0" id="navcontent">
+                    <ul class="nav"></ul>
+                </div>
+            </nav>
+        
+            <header class="jumbotron mb-0">
+                <h1 class="display-3">IT 4203 | Ashley Arrant</h1>
+                <h2>Kennesaw State University</h2>
+            </header>
+        
+            <section class="row">
+                <div class="col-md p-5">
+                    <h3>Individual Project</h3>
+                    <p class="lead">This project is broken into four milestones. This project is meant to compliment my course studies and teach me the skills I will need to complete my term project. The milestones are as follows:</p>
+                    <ol>
+                        <li>Familiarize myself with the Google Books API and how to fetch, populate, and format book data from JSON data</li>
+                        <li>Use the API's search feature to fetch results and dynamically populate book details on another page via URL parameters.</li>
+                        <li>Condense the work from Milestone 2 into a single page application.</li>
+                        <li>Use Mustache.js templating to clean up the page design, and add other dynamic format changes.</li>
+                    </ol>
+                </div>
+                <div class="col-md p-5">
+                    <h3>Term Project</h3>
+                    <p class="lead">This project will build off of the knowledge and skills I learned from completing the individual project milestones. This project uses the Movie Database API from TMDB. The requirements are as follows:</p>
+                    <ul>
+                        <li>Create a single-page application.</li>
+                        <li>Provide at leaste two search/discovery methods.</li>
+                        <li>Allow search results to be displayed in multiple views.</li>
+                        <li>Add other features such as sorting, filtering, pagination, etc.</li>
+                        <li>Show details of a movie/show on demand.</li>
+                        <li>Show details of cast members/people on demand.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="row">
+                <div class="col-md p-5">
+                    <h3>Site Overview</h3>
+                    <p class="lead">This webpage is meant to serve two purposes: to house my work for this class, and to give me practice with web hosting services.</p>
+                    <p>The hosting service I used is HostGator. I took the lowest tier plan, renewing monthly. I got my domain from Google Domains, and used the HostGator nameservers to point the URL to this site.</p>
+                    <p>I have experience with site hosting and using custom domains, as I'm currently using another domain and hosting provider to house my personal portfolio site (which is still under construction).</p>
+                </div>
+                <div class="col-md p-5">
+                    <h3>Course Information</h3>
+                    <p><strong>Professor:</strong> Richard Windland</p>
+                    <p><strong>Course number:</strong> IT 4203</p>
+                    <p><strong>Credit hours:</strong> 3</p>
+                    <p><strong>Semester:</strong> Fall 2020</p>
+                </div>
+            </section>
+        
+        <script src="/scripts/nav.js"></script>
+    </body>
 </html>
