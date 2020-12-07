@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Term Project | Ashley Arrant</title>
+        
+        <!-- stylesheets & fonts -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="config.css" />
+        
+        <!-- scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="/milestone4/scripts/mustache.js"></script>
+        <script src="/scripts/nav.js"></script>
+        <script src="scripts/search.js"></script>
+        <script src="scripts/details.js"></script>
+        <script src="scripts/discover.js"></script>
+    </head>
+    <body>
+        
+        <nav class="navbar navbar-expand-md navbar-light sticky-top bg-light" role="navigation">
+            <a href="/" class="navbar-brand">Ashley Arrant</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcontent" aria-controls="navcontent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end text-right bg-light p-3 p-md-0" id="navcontent">
+                <ul class="nav"></ul>
+            </div>
+        </nav>
+
+        <div class="container-xl">
+            
+            <div class="jumbotron mb-0">
+                <h1 class="display-3">The Movie Database</h1>
+                <h3>Search for your favorite shows, movies, actors, and more.</h3>
+            </div>
+            
+            <form class="mt-4" autocomplete="off" id="searchterms">
+                <div class="input-group">
+                    <input class="form-control form-control-lg" name="q" type="search" placeholder="Enter search terms..." required>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                
+                Search by:
+                <div class="btn-group btn-group-toggle m-3" id="searchOptions" data-toggle="buttons">
+                    <label class="btn btn-light active">
+                        <input type="radio" name="searchMethods" value="movies" checked> Movies
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="searchMethods" value="tv"> TV shows
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="searchMethods" value="people"> People
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="searchMethods" value="company"> Companies
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="searchMethods" value="collection"> Collections
+                    </label>
+                </div>
+            </form>
+            
+            <nav class="nav nav-tabs mt-3" id="tabSwap">
+                <a class="nav-item nav-link px-4 active" id="discoverTab" data-toggle="tab" href="#discover">Discover</a>
+                <a class="nav-item nav-link px-4" id="resultsTab" data-toggle="tab" href="#results">Search Results</a>
+                <a class="nav-item nav-link px-4 d-none" id="detailsTab" data-toggle="tab" href="#details">Details</a>
+            </nav>
+            
+            <div class="tab-content" id="tabContent">
+                <section id="discover" class="tab-pane fade show active p-3" role="tabpanel">
+                    
+                </section>
+                
+                <section id="results" class="tab-pane fade" role="tabpanel">
+                    <!-- view swap/sort options -->       
+                    <div class="clearfix">
+                        <div class="btn-group btn-group-sm my-2 float-right" role="group">
+                            <button type="button" class="btn btn-light active listButton" onclick="showList()">List</button>
+                            <button type="button" class="btn btn-light gridButton" onclick="showGrid()">Grid</button>
+                        </div>
+                    </div>
+                        
+                    <!-- populate results here -->
+                    <div class="row" id="searchResults">
+                        <h1 id="disclaimer">Search for a movie above and results will populate here.</h1>
+                    </div>
+                        
+                    <!-- load more conditionally -->
+                    <div class="row d-none load-more-button my-5">
+                        <div class="col text-center">
+                            <button type="button" onclick="loadMore()" class="btn btn-primary btn-lg">Load More</button>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="details" class="tab-pane fade" role="tabpanel"></section>
+                    
+            </div>
+            
+        </div>
+        
+        <!-- movie templates -->
+        <script id="moviesTemplate" type="text/template">
+        {{#results}}
+        <div class="col my-3">
+            <div class="displayList media p-2 border" onclick="getDetails('{{id}}',sm);">
+                {{#title}}
+                <div class="media-body align-self-center">
+                    <h4 class="mb-0 ml-3 movie_name">{{title}}</h4>
+                </div>
+                {{/title}}
+                {{#poster_path}}
+                <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="align-self-center mh-100" />
+                {{/poster_path}}
+                {{^poster_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="align-self-center mh-100" />
+                {{/poster_path}}
+            </div>
+
+            <div class="displayGrid" onclick="getDetails('{{id}}',sm);">
+                <div class="card">
+                    {{#poster_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{^poster_path}}
+                    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{#title}}
+                    <div class="card-body">
+                        <p class="mb-0">{{title}}</p>
+                    </div>
+                    {{/title}}
+                </div>
+            </div>
+        </div>
+        {{/results}}
+        {{^results}}
+        <h3>Sorry, no results found.</h3>
+        {{/results}}
+        </script>
+        
+        <script id="moviesDetails" type="text/template">
+        <div class="jumbotron" {{#backdrop_path}}style="background-image:url('https://image.tmdb.org/t/p/original/{{backdrop_path}}');background-size:cover;background-position: center;background-blend-mode:overlay;background-color:#ccc;"{{/backdrop_path}}>
+            <h1 class="display-4">{{title}}</h1>
+            {{#tagline}}
+            <p class="lead">{{tagline}}</p>
+            {{/tagline}}
+            {{#imdb_id}}
+            <a class="btn btn-secondary" href="https://imdb.com/title/{{imdb_id}}" target="_blank">View on IMDB</a>            
+            {{/imdb_id}}
+            {{#homepage}}
+            <a class="btn btn-primary" href="{{homepage}}" target="_blank">View homepage</a>            
+            {{/homepage}}
+        </div>
+        <ul class="nav nav-tabs px-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="credits-tab" data-toggle="tab" href="#credits" role="tab" aria-controls="credits" aria-selected="false">Credits</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="similar-tab" data-toggle="tab" href="#similar" role="tab" aria-controls="similar" aria-selected="false">Similar</a>
+            </li>
+        </ul>
+        <div class="tab-content modal-body" id="myTabContent">
+            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                {{#overview}}
+                <p class="lead mb-0">{{overview}}</p>
+                {{/overview}}
+                
+                <hr />
+                <p><strong class="text-muted">Genres:</strong> {{#genres}} <span class="inline-list-item">{{name}}</span>{{/genres}}</p>
+                {{#release_date}}
+                <hr />
+                <p><strong class="text-muted">Release date:</strong> {{release_date}}</p>
+                {{/release_date}}
+                {{#runtime}}
+                <hr />
+                <p><strong class="text-muted">Runtime:</strong> {{runtime}} minutes</p>
+                {{/runtime}}
+                {{#vote_average}}
+                <hr />
+                <p><strong class="text-muted">Votes:</strong> {{vote_average}} / 10</p>
+                {{/vote_average}}
+                {{#budget}}
+                <hr />
+                <p><strong class="text-muted">Budget:</strong> <span class="money">{{budget}}</span> {{#revenue}}| <strong class="text-muted">Revenue:</strong> <span class="money">{{revenue}}</span> {{/revenue}}</p>
+                {{/budget}}
+            </div>
+            <div class="tab-pane fade" id="credits" role="tabpanel" aria-labelledby="credits-tab">
+                
+            </div>
+            <div class="tab-pane fade" id="similar" role="tabpanel" aria-labelledby="similar-tab">
+                <!-- populate results here -->
+                <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5" id="similarResults">
+
+                </div>
+            </div>
+        </div>
+        </script>
+        
+        <script id="similarMovies" type="text/template">
+        {{#results}}
+        <div class="col my-3">
+            <div onclick="getDetails('{{id}}',sm);">
+                <div class="card">
+                    {{#poster_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{^poster_path}}
+                    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{#title}}
+                    <div class="card-body">
+                        <p class="mb-0">{{title}}</p>
+                    </div>
+                    {{/title}}
+                </div>
+            </div>
+        </div>
+        {{/results}}
+        {{^results}}
+        <h3 class="text-muted">No results could be found.</h3>
+        {{/results}}
+        </script>
+        
+        <!-- tv templates -->
+        <script id="tvTemplate" type="text/template">
+        {{#results}}
+        <div class="col my-3">
+            <div class="displayList media p-2 border" onclick="getDetails('{{id}}',sm);">
+                {{#name}}
+                <div class="media-body align-self-center">
+                    <h4 class="mb-0 ml-3 movie_name">{{name}}</h4>
+                </div>
+                {{/name}}
+                {{#poster_path}}
+                <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="align-self-center mh-100" />
+                {{/poster_path}}
+                {{^poster_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="align-self-center mh-100" />
+                {{/poster_path}}
+            </div>
+
+            <div class="displayGrid" onclick="getDetails('{{id}}',sm);">
+                <div class="card">
+                    {{#poster_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{^poster_path}}
+                    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{#original_name}}
+                    <div class="card-body">
+                        <p class="mb-0">{{original_name}}</p>
+                    </div>
+                    {{/original_name}}
+                </div>
+            </div>
+        </div>
+        {{/results}}
+        {{^results}}
+        <h3>Sorry, no results found.</h3>
+        {{/results}}
+        </script>
+        
+        <script id="tvDetails" type="text/template">
+        <div class="jumbotron" {{#backdrop_path}}style="background-image:url('https://image.tmdb.org/t/p/original/{{backdrop_path}}');background-size:cover;background-position: center;background-blend-mode:overlay;background-color:#ccc;"{{/backdrop_path}}>
+            <h1 class="display-4">{{name}}</h1>
+            {{#tagline}}
+            <p class="lead mb-0">{{tagline}}</p>
+            {{/tagline}}
+            {{#homepage}}
+            <a class="btn btn-primary" href="{{homepage}}" target="_blank">View homepage</a>            
+            {{/homepage}}
+        </div>
+        <ul class="nav nav-tabs px-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="seasons-tab" data-toggle="tab" href="#seasons" role="tab" aria-controls="seasons" aria-selected="false">Seasons</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="credits-tab" data-toggle="tab" href="#credits" role="tab" aria-controls="credits" aria-selected="false">Credits</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="similar-tab" data-toggle="tab" href="#similar" role="tab" aria-controls="similar" aria-selected="false">Similar</a>
+            </li>
+        </ul>
+        <div class="tab-content modal-body" id="myTabContent">
+            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                {{#overview}}
+                <p class="lead mb-0">{{overview}}</p>
+                {{/overview}}
+                
+                <hr />
+                <p><strong class="text-muted">Created by:</strong> {{#created_by}} <a onclick="getDetails('{{id}}','people')" href="#" class="inline-list-item">{{name}} </a>{{/created_by}}</p>
+                <hr />
+                <p><strong class="text-muted">Genres:</strong> {{#genres}} <span class="inline-list-item">{{name}}</span> {{/genres}}</p>
+                {{#first_air_date}}
+                <hr />
+                <p><strong class="text-muted">First aired:</strong> {{first_air_date}} {{^in_production}} | {{#last_air_date}} <strong class="text-muted">Last air date:</strong> {{last_air_date}}{{/last_air_date}}{{/in_production}}</p>
+                {{/first_air_date}}
+                {{#episode_run_time}}
+                <hr />
+                <p><strong class="text-muted">Episode runtime:</strong> {{episode_run_time}} minutes</p>
+                {{/episode_run_time}}
+                {{#vote_average}}
+                <hr />
+                <p><strong class="text-muted">Votes:</strong> {{vote_average}} / 10</p>
+                {{/vote_average}}
+                
+            </div>
+            <div class="tab-pane fade" id="seasons" role="tabpanel" aria-labelledby="seasons-tab">
+            <div class="accordion" id="accordionExample">
+            {{#seasons}}
+                <div class="card">
+                    <div class="card-header" id="heading{{season_number}}">
+                        <h2 class="mb-0">
+                          <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{season_number}}" aria-expanded="true" aria-controls="collapse{{season_number}}">
+                              Season #{{season_number}}{{#name}}: {{name}} {{/name}}
+                          </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse{{season_number}}" class="collapse" aria-labelledby="heading{{season_number}}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body align-self-center">
+                                    {{#overview}}<p>{{overview}}</p><hr />{{/overview}}
+
+                                    {{#air_date}}
+                                    <p><strong class="text-muted">First aired:</strong> {{air_date}}</p>
+                                    {{/air_date}}
+                                    {{#episode_count}}<hr />
+                                    <p><strong class="text-muted">Episodes:</strong> {{episode_count}}</p>
+                                    {{/episode_count}}
+                                </div>
+                                {{#poster_path}}
+                                <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="align-self-center ml-3" style="max-width:200px!important;" />
+                                {{/poster_path}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/seasons}}
+            </div>
+            </div>
+            <div class="tab-pane fade" id="credits" role="tabpanel" aria-labelledby="credits-tab"></div>
+            <div class="tab-pane fade" id="similar" role="tabpanel" aria-labelledby="similar-tab">
+                <!-- populate results here -->
+                <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5" id="similarResults">
+
+                </div>
+            </div>
+        </div>
+        </script>
+        
+        <script id="similarTV" type="text/template">
+        {{#results}}
+        <div class="col my-3">
+            <div onclick="getDetails('{{id}}',sm);">
+                <div class="card">
+                    {{#poster_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{^poster_path}}
+                    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{#original_name}}
+                    <div class="card-body">
+                        <p class="mb-0">{{original_name}}</p>
+                    </div>
+                    {{/original_name}}
+                </div>
+            </div>
+        </div>
+        {{/results}}
+        {{^results}}
+        <h3 class="text-muted">No results could be found.</h3>
+        {{/results}}
+        </script>
+        
+        <!-- people templates -->
+        <script id="peopleTemplate" type="text/template">
+        {{#results}}
+        <div class="col my-3">
+            <div class="displayList media p-2 border" onclick="getDetails('{{id}}',sm);">
+                {{#name}}
+                <div class="media-body align-self-center">
+                    <h4 class="mb-0 ml-3 movie_name">{{name}}</h4>
+                </div>
+                {{/name}}
+                {{#profile_path}}
+                <img src="https://image.tmdb.org/t/p/original/{{profile_path}}" class="align-self-center mh-100" />
+                {{/profile_path}}
+                {{^profile_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="align-self-center mh-100" />
+                {{/profile_path}}
+            </div>
+
+            <div class="displayGrid" onclick="getDetails('{{id}}',sm);">
+                <div class="card">
+                <h6 class="card-header">{{name}}</h6>
+                    {{#profile_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{profile_path}}" class="card-img-bottom" />
+                    {{/profile_path}}
+                    {{^profile_path}}
+                    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-bottom" />
+                    {{/profile_path}}
+                    {{#name}}
+                    {{/name}}
+                </div>
+            </div>
+        </div>
+        {{/results}}
+        {{^results}}
+        <h3>Sorry, no results found.</h3>
+        {{/results}}
+        </script>
+        
+        <script id="peopleDetails" type="text/template">
+        <div class="media p-3">
+    {{#profile_path}}
+	<img src="https://image.tmdb.org/t/p/original{{profile_path}}" class="align-self-center mr-3" style="max-width:200px!important">
+    {{/profile_path}}
+    {{^profile_path}}
+    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"  class="align-self-center mr-3" style="max-width:200px!important">
+    {{/profile_path}}
+	<div class="media-body align-self-center">
+		<h3 class="mt-0">{{name}}</h3>
+        {{#birthday}}
+        <p><strong class="text-muted">Born:</strong> {{birthday}}{{#deathday}} | <strong class="text-muted">Died:</strong> {{deathday}}{{/deathday}}</p>
+        {{/birthday}}
+        {{#known_for_department}}
+        <p><strong class="text-muted">Known for:</strong> {{known_for_department}}</p>
+        {{/known_for_department}}
+        {{#place_of_birth}}
+        <p><strong class="text-muted">Hometown:</strong> {{place_of_birth}}</p>
+        {{/place_of_birth}}
+        <p><strong class="text-muted">Also known as:</strong> {{also_known_as}}</p>
+        
+        {{#homepage}}
+        <a href="{{homepage}}" class="btn btn-primary">View homepage</a>
+        {{/homepage}}
+        {{#imdb_id}}
+        <a href="https://www.imdb.com/name/{{imdb_id}}" class="btn btn-warning">View on IMDB</a>
+        {{/imdb_id}}
+	</div>
+</div>
+{{#biography}}
+<p class="lead">{{biography}}
+{{/biography}}
+
+        </script>
+        
+        <!-- company templates -->
+        <script id="companyTemplate" type="text/template">
+        {{#results}}
+        <div class="col my-3">
+            <div class="displayList media p-2 border" onclick="getDetails('{{id}}',sm);">
+                {{#name}}
+                <div class="media-body align-self-center">
+                    <h4 class="mb-0 ml-3 movie_name">{{name}}</h4>
+                </div>
+                {{/name}}
+                {{#logo_path}}
+                <img src="https://image.tmdb.org/t/p/original/{{logo_path}}" class="align-self-center mh-100" />
+                {{/logo_path}}
+                {{^logo_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="align-self-center mh-100" />
+                {{/logo_path}}
+            </div>
+
+            <div class="displayGrid" onclick="getDetails('{{id}}',sm);">
+                <div class="card">
+                <h6 class="card-header">{{name}}</h6>
+                    {{#logo_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{logo_path}}" class="card-img-bottom" />
+                    {{/logo_path}}
+                    {{^logo_path}}
+                    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-bottom" />
+                    {{/logo_path}}
+                </div>
+            </div>
+        </div>
+        {{/results}}
+        {{^results}}
+        <h3>Sorry, no results found.</h3>
+        {{/results}}
+        </script>
+        
+        <script id="companyDetails" type="text/template">
+        <div class="media p-3">
+    {{#logo_path}}
+	<img src="https://image.tmdb.org/t/p/original{{logo_path}}" class="align-self-center mr-3" style="max-width:200px!important">
+    {{/logo_path}}
+    {{^logo_path}}
+    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"  class="align-self-center mr-3" style="max-width:200px!important">
+    {{/logo_path}}
+	<div class="media-body align-self-center">
+		<h3 class="mt-0">{{name}}</h3>
+        {{#headquarters}}
+        <p><strong class="text-muted">Headquarters:</strong> {{headquarters}}</p>
+        {{/headquarters}}
+        {{#origin_country}}
+        <p><strong class="text-muted">Origin:</strong> {{origin_country}}</p>
+        {{/origin_country}}
+        
+        {{#homepage}}
+        <a href="{{homepage}}" class="btn btn-primary">View homepage</a>
+        {{/homepage}}
+	</div>
+</div>
+{{#description}}
+<p class="lead">{{description}}
+{{/description}}
+        </script>
+        
+        <!-- collection templates -->
+        <script id="collectionTemplate" type="text/template">
+        {{#results}}
+        <div class="col my-3">
+            <div class="displayList media p-2 border" onclick="getDetails('{{id}}',sm);">
+                {{#name}}
+                <div class="media-body align-self-center">
+                    <h4 class="mb-0 ml-3 movie_name">{{name}}</h4>
+                </div>
+                {{/name}}
+                {{#poster_path}}
+                <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="align-self-center mh-100" />
+                {{/poster_path}}
+                {{^poster_path}}{{#backdrop_path}}
+                <img src="https://image.tmdb.org/t/p/original/{{backdrop_path}}" class="align-self-center mh-100" />
+                {{/backdrop_path}}{{^backdrop_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="align-self-center mh-100" />
+                {{/backdrop_path}}{{/poster_path}}
+            </div>
+
+            <div class="displayGrid" onclick="getDetails('{{id}}',sm);">
+                <div class="card">
+                <h6 class="card-header">{{name}}</h6>
+                    {{#poster_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{poster_path}}" class="card-img-bottom" />
+                    {{/poster_path}}
+                    {{^poster_path}}{{#backdrop_path}}
+                    <img src="https://image.tmdb.org/t/p/original/{{backdrop_path}}" class="card-img-bottom" />
+                    {{/backdrop_path}}{{^backdrop_path}}
+                    <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-bottom" />
+                    {{/backdrop_path}}{{/poster_path}}
+                    {{#name}}
+                    {{/name}}
+                </div>
+            </div>
+        </div>
+        {{/results}}
+        {{^results}}
+        <h3>Sorry, no results found.</h3>
+        {{/results}}
+        </script>
+        
+        <script id="collectionDetails" type="text/template">
+        <div class="jumbotron" {{#backdrop_path}}style="background-image:url('https://image.tmdb.org/t/p/original/{{backdrop_path}}');background-size:cover;background-position: center;background-blend-mode:overlay;background-color:#ccc;"{{/backdrop_path}}>
+            <h1 class="display-4">{{name}}</h1>
+        </div>
+            {{#overview}}
+            <p class="lead mb-0">{{overview}}</p>
+            {{/overview}}
+
+<div class="row row-cols-3 row-cols-md-4 row-cols-lg-5">
+{{#parts}}
+    <div class="col my-3">
+            <div class="card" onclick="getDetails({{id}},'movies')">
+                <h6 class="card-header">{{title}}</h6>
+                {{#poster_path}}
+                <img src="https://image.tmdb.org/t/p/original{{poster_path}}" class="card-img-top">
+                {{/poster_path}}
+                {{^poster_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-top">
+                {{/poster_path}}
+            </div>
+        </div>
+{{/parts}}
+</div>
+        </script>
+        
+        <!-- credits template -->
+        <script id="creditsTemplate" type="text/template">
+        <h3 class="mt-3">Cast</h3>
+        <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5">
+        {{#cast}}
+        <div class="col my-3">
+            <div class="card" onclick="getDetails({{id}},'people')">
+                <h6 class="card-header">{{name}}</h6>
+                {{#profile_path}}
+                <img src="https://image.tmdb.org/t/p/original{{profile_path}}" class="card-img-top">
+                {{/profile_path}}
+                {{^profile_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-top">
+                {{/profile_path}}
+                <div class="card-body align-self-center">
+                    <p class="mb-0"><strong class="text-muted">Role:</strong> {{character}}</p>
+                </div>
+            </div>
+        </div>
+        {{/cast}}</div>
+        
+        <h3 class="mt-3">Crew</h3>
+        <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5">
+        {{#crew}}
+        <div class="col my-3">
+            <div class="card" onclick="getDetails({{id}},'people')">
+                <h6 class="card-header">{{name}}</h6>
+                {{#profile_path}}
+                <img src="https://image.tmdb.org/t/p/original{{profile_path}}" class="card-img-top">
+                {{/profile_path}}
+                {{^profile_path}}
+                <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" class="card-img-top">
+                {{/profile_path}}
+                <div class="card-body align-self-center">
+                    <p><strong class="text-muted">Department:</strong> {{department}}</p>
+                    <p class="mb-0"><strong class="text-muted">Job:</strong> {{job}}</p>
+                </div>
+            </div>
+        </div>
+        {{/crew}}
+        </div>
+        </script>
+
+    </body>
+</html>

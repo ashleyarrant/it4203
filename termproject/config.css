@@ -1,0 +1,12 @@
+.mh-100 {
+    max-height:100px!important;
+}
+
+.row .card:hover, .row .displayList:hover, #credits > .media:hover {
+    cursor:pointer;
+    background:#ededed;
+}
+
+.inline-list-item:not(:last-child)::after {
+    content:" /";
+}
